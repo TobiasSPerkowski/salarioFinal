@@ -9,15 +9,19 @@
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
-       77 WS-NOME     PIC x(20).
-       77 WS-BASE     PIC 9(06)V99.
-       77 WS-TEMPO    PIC 9(02).
-       77 WS-PERCENT  PIC 99.
-       77 WS-BONUS    PIC 9(06)V99.
-       77 WS-FINAL    PIC 9(07)V99.
+       77 WS-NOME       PIC x(20) VALUE SPACES.
+       77 WS-TEMPO      PIC 9(02).
+       77 WS-PERCENT    PIC 99.
+       77 WS-BASE       PIC 9(06)V99.
+       77 WS-BONUS      PIC 9(06)V99.
+       77 WS-FINAL      PIC 9(07)V99.
+       77 WS-BASE-OUT   PIC ZZZ,ZZ9.99.
+       77 WS-BONUS-OUT  PIC ZZZ,ZZ9.99.
+       77 WS-FINAL-OUT  PIC ZZZ,ZZ9.99.
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            PERFORM ENTRADA-DADOS
+           PERFORM VALIDA-DADOS
            PERFORM CALCULA-BONUS
            PERFORM CALCULA-SALARIO
            PERFORM EXIBE-RESULTADO
@@ -32,6 +36,19 @@
            ACCEPT WS-TEMPO
            .
        
+       VALIDA-DADOS.
+           PERFORM UNTIL WS-NOME NOT = SPACES
+                   DISPLAY 'Nome nao pode ser vazio. Digite novamente: '
+                   ACCEPT WS-NOME
+               END-PERFORM
+           
+               PERFORM UNTIL WS-BASE NOT = 0
+                   DISPLAY 'Salario nao pode ser zero. Digite novamente:
+      -            ' '
+                   ACCEPT WS-BASE
+           END-PERFORM
+           .
+
        CALCULA-BONUS.
            IF WS-TEMPO > 5
                MOVE 15 TO WS-PERCENT
@@ -50,10 +67,13 @@
            .
 
        EXIBE-RESULTADO.
-           DISPLAY 'NOME: ' WS-NOME
-           DISPLAY 'SALARIO BASE: ' WS-BASE
-           DISPLAY 'BONUS: ' WS-BONUS
-           DISPLAY 'SALARIO FINAL: ' WS-FINAL
+           MOVE WS-BASE TO WS-BASE-OUT
+           MOVE WS-BONUS TO WS-BONUS-OUT
+           MOVE WS-FINAL TO WS-FINAL-OUT
+           DISPLAY 'NOME:          ' WS-NOME
+           DISPLAY 'SALARIO BASE:  ' WS-BASE-OUT
+           DISPLAY 'BONUS:         ' WS-BONUS-OUT
+           DISPLAY 'SALARIO FINAL: ' WS-FINAL-OUT
            .
        
        END PROGRAM SALARIO-FINAL.
