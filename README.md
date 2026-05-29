@@ -12,11 +12,9 @@ O programa recebe:
 
 Com base no tempo de empresa, é calculado um bônus salarial:
 
-| Tempo de empresa | Bônus |
-| ---------------- | ----- |
-| Até 1 ano        | 5%    |
-| 2 a 5 anos       | 10%   |
-| Acima de 5 anos  | 15%   |
+* Até 1 ano -> 5%
+* 2 a 5 anos -> 10%
+* 5 anos ou mais -> 15%
 
 Ao final, o programa exibe:
 
