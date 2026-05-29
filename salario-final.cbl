@@ -1,51 +1,81 @@
       ******************************************************************
-      * Author: TOBIAS SAUERESSIG
-      * Date: 05/28/2026
-      * Purpose: TESTANDO E/S
-      * Tectonics: cobc
+      * PROGRAM:     SALARIO-FINAL
+      * AUTHOR:      TOBIAS SAUERESSIG
+      * DATE:        05/28/2026
+      * PURPOSE:     CALCULAR SALARIO FINAL COM BASE NO TEMPO DE EMPRESA
+      * COMPILER:    GNUCOBOL (COBC)
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. SALARIO-FINAL.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
-       77 WS-NOME       PIC x(20) VALUE SPACES.
-       77 WS-TEMPO      PIC 9(02).
-       77 WS-PERCENT    PIC 99.
-       77 WS-BASE       PIC 9(06)V99.
-       77 WS-BONUS      PIC 9(06)V99.
-       77 WS-FINAL      PIC 9(07)V99.
-       77 WS-BASE-OUT   PIC ZZZ,ZZ9.99.
-       77 WS-BONUS-OUT  PIC ZZZ,ZZ9.99.
-       77 WS-FINAL-OUT  PIC ZZZ,ZZ9.99.
+       01 WS-FUNCIONARIO.
+           05 WS-NOME        PIC X(20).
+           05 WS-BASE        PIC 9(06)V99.
+           05 WS-TEMPO       PIC 99.
+       
+       01 WS-CALCULO.
+           05 WS-PERCENT     PIC 99.
+           05 WS-BONUS       PIC 9(06)V99.
+           05 WS-FINAL       PIC 9(07)V99.
+       
+       01 WS-EXIBICAO.
+           05 WS-BASE-OUT    PIC ZZZ,ZZ9.99.
+           05 WS-BONUS-OUT   PIC ZZZ,ZZ9.99.
+           05 WS-FINAL-OUT   PIC ZZZ,ZZ9.99.
+       
+       01 WS-CONTROLE.
+           05 WS-OPCAO       PIC 9.
+
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
-           PERFORM ENTRADA-DADOS
-           PERFORM VALIDA-DADOS
-           PERFORM CALCULA-BONUS
-           PERFORM CALCULA-SALARIO
-           PERFORM EXIBE-RESULTADO
+           PERFORM UNTIL WS-OPCAO = 2
+               DISPLAY ' '
+               DISPLAY '1 - CALCULAR SALARIO'
+               DISPLAY '2 - SAIR'
+               DISPLAY 'ESCOLHA UMA OPCAO:'
+               ACCEPT WS-OPCAO
+               IF WS-OPCAO = 1
+                   PERFORM LIMPA-DADOS
+                   PERFORM ENTRADA-DADOS
+                   PERFORM VALIDA-DADOS
+                   PERFORM CALCULA-BONUS
+                   PERFORM CALCULA-SALARIO
+                   PERFORM EXIBE-RESULTADO
+               ELSE
+                   IF WS-OPCAO NOT = 2
+                       DISPLAY 'OPCAO INVALIDA'
+                   END-IF
+               END-IF
+           END-PERFORM
            STOP RUN.
 
+       LIMPA-DADOS.
+           MOVE SPACES TO WS-NOME
+           MOVE ZERO TO WS-BASE
+           MOVE ZERO TO WS-TEMPO
+           MOVE ZERO TO WS-CALCULO
+           .
+
        ENTRADA-DADOS.
-           DISPLAY 'Digite o nome: '
+           DISPLAY 'DIGITE O NOME: '
            ACCEPT WS-NOME
-           DISPLAY 'Digite o salario base: '
+           DISPLAY 'DIGITE O SALARIO BASE: '
            ACCEPT WS-BASE
-           DISPLAY 'Digite o tempo de empresa (em anos): '
+           DISPLAY 'DIGITE O TEMPO DE EMPRESA (EM ANOS): '
            ACCEPT WS-TEMPO
            .
        
        VALIDA-DADOS.
            PERFORM UNTIL WS-NOME NOT = SPACES
-                   DISPLAY 'Nome nao pode ser vazio. Digite novamente: '
-                   ACCEPT WS-NOME
-               END-PERFORM
+               DISPLAY 'NOME NAO PODE SER VAZIO. DIGITE NOVAMENTE: '
+               ACCEPT WS-NOME
+           END-PERFORM
            
-               PERFORM UNTIL WS-BASE NOT = 0
-                   DISPLAY 'Salario nao pode ser zero. Digite novamente:
-      -            ' '
-                   ACCEPT WS-BASE
+           PERFORM UNTIL WS-BASE NOT = 0
+               DISPLAY 'SALARIO NAO PODE SER ZERO. DIGITE NOVAMENTE: '
+               ACCEPT WS-BASE
            END-PERFORM
            .
 
